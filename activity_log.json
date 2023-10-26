@@ -1,0 +1,30 @@
+{
+    "activity": "ENCRYPTOR",
+    "ip": "127.0.1.1",
+    "computer_name": "LAPTOP-C00A7KHH",
+    "timestamp": "2023-10-26 17:35:42",
+    "key": "522af2ad4c2ce4867413d0f7e75e4871",
+    "second_key": "1"
+}
+{
+    "activity": "DESENCRYPTOR",
+    "ip": "127.0.1.1",
+    "computer_name": "LAPTOP-C00A7KHH",
+    "timestamp": "2023-10-26 17:36:20",
+    "second_key": "2"
+}
+{
+    "activity": "DESENCRYPTOR",
+    "ip": "127.0.1.1",
+    "computer_name": "LAPTOP-C00A7KHH",
+    "timestamp": "2023-10-26 17:42:07",
+    "second_key": "2"
+}
+{
+    "activity": "ENCRYPTOR",
+    "ip": "127.0.1.1",
+    "computer_name": "LAPTOP-C00A7KHH",
+    "timestamp": "2023-10-26 17:42:12",
+    "key": "c6391b531b06dce5074a48b730f5af0a",
+    "second_key": "1"
+}
