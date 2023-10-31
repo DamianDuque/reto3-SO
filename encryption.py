@@ -20,13 +20,19 @@ class FileEncryptor:
     def encrypt(self):
         for i in range(len(self.newfilenames)):
             cipher = AES.new(self.key, AES.MODE_EAX)
-            with open(self.newfilenames[i], 'rb') as file:
-                plaintext = file.read()
+            #with open(self.newfilenames[i], "rb") as file:
+                #jsonData = json.load(file)
+                #datatoencript = jsonData[str(i)]
+                #print(datatoencript, type(datatoencript))
+            with open(self.newfilenames[i], "rb") as file2:
+                plaintext = file2.read()
+                #print(plaintext[9:-3])
+                datatoencript = plaintext[9:-3]
             
-            ciphertext, tag = cipher.encrypt_and_digest(plaintext)
+            ciphertext, tag = cipher.encrypt_and_digest(datatoencript)
             encfilename = self.newfilenames[i].split(".")
             
-            with open(encfilename[0]+"enc.txt", 'wb') as file:
+            with open("encrypted/"+encfilename[0]+"enc.txt", 'wb') as file:
                 file.write(cipher.nonce)
                 file.write(tag)
                 file.write(ciphertext)
@@ -57,9 +63,12 @@ class FileEncryptor:
     def rebuild_file(self):
         for i in range(self.nfragments):
             fragmento= str(self.fragments[i])
-            #print(self.fragments)
             elementos= fragmento.split(' ')
-            newJson = {elementos[1]:elementos[2]}
+            value = base64.b64decode(elementos[2])
+            value = str(value)
+            #print(value, type(value))
+            newJson = {elementos[1]:value}
+            
             with open(elementos[1]+".json", "w") as json_file:
                 json.dump(newJson, json_file)
             self.newfilenames.append(elementos[1]+".json")

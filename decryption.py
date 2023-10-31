@@ -11,19 +11,36 @@ class FileDecryptor:
         self.output_filename = output_filename
         self.second_key = second_key
 
+    def rebuild(self):
+        fullfile = b''
+        for i in range(encrypted_filename):
+            with open("decrypted/"+str(i)+self.output_filename, 'rb') as f:
+                fullfile+= f.read()
+
+        fullfile = fullfile.decode("utf-8")
+        fullfile = fullfile.split('\\\\n')
+        print(fullfile)
+        with open("decrypted/"+"final"+self.output_filename, 'w') as finalfilne:
+            for line in fullfile:
+                finalfilne.write(line+'\n')
+
+
     def decrypt(self):
-        with open(self.encrypted_filename, 'rb') as file:
-            nonce = file.read(16)
-            tag = file.read(16)
-            ciphertext = file.read()
+        for i in range(encrypted_filename):
+            with open("encrypted/" + str(i)+"enc.txt", 'rb') as file:
+                nonce = file.read(16)
+                tag = file.read(16)
+                ciphertext = file.read()
 
-        cipher = AES.new(self.key, AES.MODE_EAX, nonce=nonce)
-        plaintext = cipher.decrypt(ciphertext)
+            cipher = AES.new(self.key, AES.MODE_EAX, nonce=nonce)
+            plaintext = cipher.decrypt(ciphertext)
 
-        with open(self.output_filename, 'wb') as file:
-            file.write(plaintext)
+            with open("decrypted/"+str(i)+self.output_filename, 'wb') as file:
+                file.write(plaintext)
 
         self.log_activity()
+        self.rebuild()
+
 
     def log_activity(self):
         ip = socket.gethostbyname(socket.gethostname())
@@ -46,10 +63,10 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) != 5:
-        print("Uso: python decryption.py <archivo_encriptado> <archivo_desencriptado> <clave> <segunda_llave>")
+        print("Uso: python decryption.py <numero de archivos> <archivo_desencriptado> <clave> <segunda_llave>")
         sys.exit(1)
 
-    encrypted_filename = sys.argv[1]
+    encrypted_filename = int(sys.argv[1])
     output_filename = sys.argv[2]
     key = bytes.fromhex(sys.argv[3])  # Convertir la clave en bytes desde una representación hexadecimal
     second_key = sys.argv[4]
