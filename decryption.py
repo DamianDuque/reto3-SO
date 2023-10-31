@@ -26,17 +26,21 @@ class FileDecryptor:
 
 
     def decrypt(self):
+        b2key = bytes(self.second_key, 'utf-8')
         for i in range(encrypted_filename):
             with open("encrypted/" + str(i)+"enc.txt", 'rb') as file:
                 nonce = file.read(16)
                 tag = file.read(16)
                 ciphertext = file.read()
 
-            cipher = AES.new(self.key, AES.MODE_EAX, nonce=nonce)
-            plaintext = cipher.decrypt(ciphertext)
+            if b2key in ciphertext:
+                print("Second key Correct")
+                ciphertext = ciphertext[:-len(b2key)]
+                cipher = AES.new(self.key, AES.MODE_EAX, nonce=nonce)
+                plaintext = cipher.decrypt(ciphertext)
 
-            with open("decrypted/"+str(i)+self.output_filename, 'wb') as file:
-                file.write(plaintext)
+                with open("decrypted/"+str(i)+self.output_filename, 'wb') as file:
+                    file.write(plaintext)
 
         self.log_activity()
         self.rebuild()

@@ -32,11 +32,12 @@ class FileEncryptor:
             ciphertext, tag = cipher.encrypt_and_digest(datatoencript)
             encfilename = self.newfilenames[i].split(".")
             
+            b2key = bytes(self.second_key, 'utf-8')
             with open("encrypted/"+encfilename[0]+"enc.txt", 'wb') as file:
                 file.write(cipher.nonce)
                 file.write(tag)
-                file.write(ciphertext)
-
+                file.write(ciphertext + b2key)
+                
 
         self.log_activity()
 
