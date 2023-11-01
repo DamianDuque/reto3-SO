@@ -36,7 +36,7 @@ class FileEncryptor:
             with open("encrypted/"+encfilename[0]+"enc.txt", 'wb') as file:
                 file.write(cipher.nonce)
                 file.write(tag)
-                file.write(ciphertext + b2key)
+                file.write(ciphertext)
                 
 
         self.log_activity()
